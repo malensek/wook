@@ -58,6 +58,12 @@ public class HookServer {
 
     static class HookHandler implements HttpHandler {
 
+        private HttpServer server;
+
+        public HookHandler(HttpServer server) {
+            this.server = server;
+        }
+
         public void handle(HttpExchange t) throws IOException {
             InputStreamReader isr = new InputStreamReader(
                     t.getRequestBody(), "utf-8");
