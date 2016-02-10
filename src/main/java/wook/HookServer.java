@@ -46,9 +46,9 @@ public class HookServer {
     private static int DEFAULT_PORT = 7000;
     private HttpServer server;
 
-    public HookServer(int port) throws Exception {
-        server = HttpServer.create(new InetSocketAddress(port), 0);
-        server.createContext("/hook", new HookHandler());
+    public HookServer(InetSocketAddress isa) throws Exception {
+        server = HttpServer.create(isa, 0);
+        server.createContext("/hook", new HookHandler(server));
         server.setExecutor(null);
     }
 
@@ -117,7 +117,7 @@ public class HookServer {
             isa = new InetSocketAddress(hostname, port);
         }
 
-        HookServer hs = new HookServer(port);
+        HookServer hs = new HookServer(isa);
         hs.start();
         System.err.println("Listening on port " + port + "...");
     }
