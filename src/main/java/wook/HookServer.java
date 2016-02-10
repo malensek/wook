@@ -101,9 +101,21 @@ public class HookServer {
             .withRequiredArg()
             .ofType(Integer.class)
             .defaultsTo(DEFAULT_PORT);
+        OptionSpec<String> hostSpec = parser.acceptsAll(
+                Arrays.asList("h", "host"), "Hostname to bind to")
+            .withRequiredArg()
+            .ofType(String.class);
 
         OptionSet opts = parser.parse(args);
         int port = portSpec.value(opts);
+        String hostname = hostSpec.value(opts);
+
+        InetSocketAddress isa;
+        if (hostname == null || hostname.equals("")) {
+            isa = new InetSocketAddress(port);
+        } else {
+            isa = new InetSocketAddress(hostname, port);
+        }
 
         HookServer hs = new HookServer(port);
         hs.start();
