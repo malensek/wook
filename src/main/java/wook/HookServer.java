@@ -90,6 +90,7 @@ public class HookServer {
 
             t.sendResponseHeaders(202, 0);
             t.close();
+            this.server.stop(1);
         }
     }
 
